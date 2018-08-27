@@ -82,6 +82,8 @@ field synthesis
  FieldSynthesisInteractive(createAnnulus(),true); % demonstrate a Bessel beam 
 ```
 
+[!Screenshot of interactive field synthesis line scan simulation of Bessel beam](images/FieldSynthesisInteractive_bessel.png)
+
  Mark Kittisopikul , August 2018  
  Goldman Lab  
  Northwestern University
@@ -130,6 +132,8 @@ FieldSynthesisVersusLattice.m
  imshow(createAnnulus(256,32,4),[]);
 ```
 
+![Basic annulus in 256x256 image with radius 32 and width 4](images/createAnnulus_basic.png)
+
  Create Bessel beam 2D profile
 ```matlab
  figure;
@@ -138,13 +142,11 @@ FieldSynthesisVersusLattice.m
  caxis([0 6e-4]);
 ```
 
+![Bessel pattern created by Fourier transform of default annulus created with no specified parameters](images/createAnnulus_bessel.png)
+
  #### REMARKS
  This could be streamlined using the bresenham circle algorithm
 
  Mark Kittisopikul, August 25th, 2018  
  Lab of Robert D. Goldman  
  Northwestern University
-
-```matlab
-createAnnulus.m
-```
