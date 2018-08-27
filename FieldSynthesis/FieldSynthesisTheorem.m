@@ -1,4 +1,4 @@
-function [efield,slice,Q,T] = FieldSynthesisTheorem(efield)
+function [efield,slice,smear,Q,T] = FieldSynthesisTheorem(efield)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Small program to illustrate a new Field Synthesis Theorem.
 %
@@ -11,6 +11,17 @@ function [efield,slice,Q,T] = FieldSynthesisTheorem(efield)
 %
 %   Reto Fiolka, May 2017
 %   Mark Kittisopikul, May 2017 - Aug 2018
+%
+%   INPUT
+%   efield - electric field at the focal plane, may be real or complex
+%            valued
+%   
+%   OUTPUT
+%   efield - electric field at the focal plane
+%   slice  - intensity of illumination pattern by field synthesis
+%   smear  - intensity of illumination pattern by dithering
+%   Q      - Fourier transform of individual line scan without phasing,a=10
+%   T      - Fourier transform of individual line scan with phasing,a=10
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -125,7 +136,7 @@ T_hat=zeros(sz);
 T_hat(:,a)=spectrum_unshifted(:,a);
 T = ifft2(T_hat);
 
-% Q differs from temp because the selected column is copied into k_x = 0
+% Q differs from T because the selected column is copied into k_x = 0
 Q_hat = zeros(N);
 Q_hat(:,1) = spectrum_unshifted(:,a);
 Q = ifft2(Q_hat);
