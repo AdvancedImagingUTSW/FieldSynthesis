@@ -82,7 +82,7 @@ field synthesis
  FieldSynthesisInteractive(createAnnulus(),true); % demonstrate a Bessel beam 
 ```
 
-[!Screenshot of interactive field synthesis line scan simulation of Bessel beam](images/FieldSynthesisInteractive_bessel.png)
+![Screenshot of interactive field synthesis line scan simulation of Bessel beam](images/FieldSynthesisInteractive_bessel.png)
 
  Mark Kittisopikul , August 2018  
  Goldman Lab  
