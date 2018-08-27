@@ -30,7 +30,7 @@ Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3
    spectrum.  This has important applications for scanned light-sheets and
    how to generate them.
 
-   Reto Fiolka, May 2017
+   Reto Fiolka, May 2017  
    Mark Kittisopikul, May 2017 - Aug 2018
 
    #### INPUT
@@ -47,6 +47,10 @@ Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3
 ```matlab
 FieldSynthesisTheorem.m;
 ```
+
+![Line scan simulation showing that field synthesis and lattice light sheet profiles are the same.](images/FieldSynthesisTheorem_1.png)
+![Individual line scan analysis showing complex modulation depending on line scan position](images/FieldSynthesisTheorem_2.png)
+
 
 ### FieldSynthesisInteractive.m
 
@@ -71,16 +75,16 @@ field synthesis
  #### EXAMPLE
 ```matlab
  FieldSynthesisInteractive; % default demonstration with cameraman
+```
+![Screenshot of interactive field synthesis line scan simulation](images/FieldSynthesisInteractive.png)
+
+```matlab
  FieldSynthesisInteractive(createAnnulus(),true); % demonstrate a Bessel beam 
 ```
 
  Mark Kittisopikul , August 2018  
  Goldman Lab  
  Northwestern University
-
-```matlab
-FieldSynthesisInteractive.m;
-```
 
 ### FieldSynthesisVersusLattice.m
 
@@ -105,6 +109,10 @@ Simulation for field synthesis
 ```matlab
 FieldSynthesisVersusLattice.m
 ```
+
+![Profile demonstration showing identical profiles between field synthesis and dithered lattice light sheets](images/FieldSynthesisVersusLattice_Profiles.png)
+![Demonstration showing Fourier components of lattice light sheet simulation](images/FieldSynthesisVersusLattice.png)
+
 
 ### createAnnulus.m
 
