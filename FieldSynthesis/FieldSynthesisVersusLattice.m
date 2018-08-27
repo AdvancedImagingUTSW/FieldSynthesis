@@ -1,245 +1,214 @@
+function [varargout] = FieldSynthesisVersusLattice(n,w,r,offset,dispRange)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 %Simulation for field synthesis
 %
-%   compares field synthesis vs lattice
-
+%   compares field synthesis vs square lattice
+%
 %
 %   Reto, May 2017
 %   Mark Kittisopikul, August 2018
+%
+%   INPUT
+%   n - Defines the size of the image and mask to be n x n
+%   w - Width of the mask components
+%   r - Radius of the annulus (width is centered on the annulus)
+%   offset - Offset of the side components of the square lattice
+%   dispRange - Set which part of mask to display in figures
+%
+%   OUTPUT
+%   out - struct containing workspace of this function
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-clear all;clear all
 
 %% Parameters
 % Size of the mask
-n=4096;
+if(nargin < 1)
+    n=4096;
+end
 % Width of the annulus
-w=5;
+if(nargin < 2)
+    w=5;
+end
 % Radius of the annulus
-r=258;
+if(nargin < 3)
+    r=256;
+    % r = 200
+end
 % Offset for side slits
-offset = 256;
-% offset=198;
+if(nargin < 4)
+    offset = r;
+    % offset=198;
+end
 % Display range
-dispRange = (-600:600)+n/2+1;
+if(nargin < 5)
+    dispRange = (-600:600)+floor(n/2)+1;
+end
 
 %% Create clean annulus
-% Unneeded to initialize since we will create the matrix with hypot
-% A=zeros(n,n);
-
+% We do not need to initialize
+% since we will create the matrix with createAnnulus
+% annulus = zeros(n);
 
 % Vector for x and y, which should be symmetric
 v = 1:n;
 % zeroth order coefficient is at n/2+1,n/2+1 due to fftshift/ifftshift
 v = v-floor(n/2)-1;
 
+% Create an annulus of radius r with width w centered in an n x n matrix
 annulus = createAnnulus(v, r, w);
 
 % Select columns for mask
 abs_v = abs(v);
-selected_columns = (abs_v < offset & abs_v > offset-w) | (v < w/2 & v > -w/2);
+% Select three sets of frequency columns
+% 1) Group of columns centered on the offset to the left of width w
+% 2) Group of columns in the center of width w
+% 3) Group of columns centered on the offset to the right of width w
+selected_columns = (abs_v < offset+w/2 & abs_v > offset-w/2) | ...
+    (v < w/2 & v > -w/2);
 
 % Remove unselected columns from mask
-A = annulus;
-A(:,~selected_columns) = false;
-A = double(A);
+latticeFourierMask = annulus;
+latticeFourierMask(:,~selected_columns) = false;
+latticeFourierMask = double(latticeFourierMask);
+% latticeFourierMask is now the Fourier mask of a square lattice
 
-%% Obsolete for loop version
-% tic;
-% for k=1:n
-%     for l=1:n
-%         
-%         x=k-n/2-1;
-%         y=l-n/2-1;
-%         q=sqrt(x^2+y^2);
-%         
-%         if q<r+w && q>r-w && y<2 && y>-3
-%             A(k,l)=1;
-%           
-%         end   
-%         
-%         if q<r+w && q>r-w && y<offset && y>offset-5
-%             A(k,l)=1;
-%           
-%         end  
-%         
-%                 if q<r+w && q>r-w && y>-offset && y<-(offset-5)
-%             A(k,l)=1;
-%           
-%         end  
-%         
-%     end
-% end
-% toc;
 %% Field Synthesis
 
-E = sum(abs(ifftshift(ifft(ifftshift(A)))).^2,2);
-% E=E/max(E);
+% The field synthesis is process is equivalent to summing over a
+% 1D Fourier Transform of the mask
+% 1) Shift so the 0th frequency is at 1,1
+% 2) Do the 1D inverse FT
+% 3) Shift so the center pixel is the center of the image
+fieldSynthesisProfile = fftshift(ifft(ifftshift(latticeFourierMask)));
+fieldSynthesisProfile = sum(abs(fieldSynthesisProfile).^2,2);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Lattice simulation
 
-% B=fftshift(fft2(A));
-B=fftshift(ifft2(ifftshift(A)));
-%figure;imshow(abs(B).^2,[])
-latticeLineProfile=abs(B).^2;
-
-latticeLineProfile=sum(latticeLineProfile,2);
+% The electric field of lattice is the 2D Fourier Transform of the mask
+lattice_efield=fftshift(ifft2(ifftshift(latticeFourierMask)));
+% Take the square modulus to get the intensity
+lattice=abs(lattice_efield).^2;
+% Perform the dithering operation
+latticeLineProfile=sum(lattice,2);
+% Scale by n, due ifft2 normalization
 latticeLineProfile=latticeLineProfile*n;
-% latticeLineProfile=latticeLineProfile/max(latticeLineProfile);
 
-%% compare lattice profile to field synthesis profile
+%% Plot: Compare lattice profile to field synthesis profile
 figure;
+% Show the convention lattice profile
 subplot(3,1,1);
 plot(dispRange-n/2+1,latticeLineProfile(dispRange));
 xlim([min(dispRange) max(dispRange)]-n/2+1);
 title('Conventional Lattice Profile');
 
 subplot(3,1,2);
-plot(dispRange-n/2+1,E(dispRange),'r')
+% Show the field synthesis profile
+plot(dispRange-n/2+1,fieldSynthesisProfile(dispRange),'r')
 xlim([min(dispRange) max(dispRange)]-n/2+1);
-title('Field Synthesis Lattice Profile');
+title('Field Synthesis Profile');
 
 subplot(3,1,3);
+% Compare the two profiles
 plot(dispRange-n/2+1,latticeLineProfile(dispRange));
 hold on;
-plot(dispRange-n/2+1,E(dispRange),'r--')
+plot(dispRange-n/2+1,fieldSynthesisProfile(dispRange),'r--')
 xlim([min(dispRange) max(dispRange)]-n/2+1);
-title('Comparison');
+title('Comparison of Lattice and Field Synthesis Profiles');
 
 %% Analysis of all interference patterns in lattice
 
-lattice=abs(B).^2;
-test=fftshift(fft2(lattice)); %Fourier transform of lattice
+% lattice is the intensity of the pattern as per above
+% lattice=abs(B).^2;
+%Fourier transform of lattice
+lattice_hat=fftshift(fft2(ifftshift(lattice)));
 
 
-%% dithering lattice: lattice pattern is shifted by subpixel steps and added
-latPro=zeros(n,n);
-steps=64;stepsize=0.25;
-for k=1:steps
-temp=lattice;
+%% Dithering lattice: lattice pattern is shifted by subpixel steps and added
+% Calculate time average by dithering over the period
+period = n/offset;
 
-
-
-temp=fftshift(fft2(temp));
-u=0:1:n-1; 
-i=sqrt(-1);
-wa=exp(-i*2*pi.*(u*stepsize*k)./(n));
-wa=repmat(wa,[n,1]);
-
-temp=temp.*wa;
-
-temp=abs(ifft2(temp));
-
-latPro=latPro+temp;
+% To dither, we average over one period of the lattice by shifting
+if(period == round(period))
+    % The shifting operation can be done via a 2D convolution
+    latticeDithered = conv2(lattice,ones(1,period)/period,'same');
+    % % The following block of code is equivalent to the above line
+    % latticeDithered = zeros(size(lattice));
+    % for s=floor(-period/2):floor(period/2)-1
+    %     latticeDithered = latticeDithered + circshift(lattice,s,2);
+    % end
+    % latticeDithered = latticeDithered / period;
+else
+    % Above, we assume that the period is of integer units.
+    % If it were not of integer units, we can use the following code
+    % Use the convolution theorem to do convolution in Fourier space
+    latticeDithered = bsxfun(@times,lattice_hat,sinc(v/period));
+    latticeDithered = fftshift(ifft2(ifftshift(latticeDithered)));
+    % % We could also approximate the the dithering via subpixel steps
+    % subpixelFactor = 1/(period-floor(period));
+    % subpixelFactor = ceil( subpixelFactor );
+    % subpixelFactor = min(subpixelFactor,10);
+    % period = floor(period*subpixelFactor);
+    % latticeDithered = conv2( interpft(lattice,n*subpixelFactor,2), ...
+    %                         ones(1,period)/period,'same');
+    % latticeDithered = interpft(latticeDithered,n,2);
 end
 
-latPro=latPro/steps;
-figure;imshow(latPro,[])
-test2=fftshift(fft2(latPro)); %Fourier transform of dithered lattice
+%Fourier transform of dithered lattice
+latticeDithered_hat=fftshift(fft2(ifftshift(latticeDithered)));
 
-%%
-
-
+%% Plot 2x3 
 
 h = figure;
-set(h,'Position',[625 532 1165 626]);
+% Make figure full screen
+set(h,'Units','normalized','Position',[0 0 1 1]);
+
+% Show the mask
 subplot(2,3,1)
-imshow(A(dispRange,dispRange),[]);colormap hot
+imshow(latticeFourierMask(dispRange,dispRange),[]);colormap hot
 title('Electric field in pupil');
 
-% figure;
+% Show the Fourier transform of the _intensity_ of the lattice
 subplot(2,3,2)
-imshow((abs(test(dispRange,dispRange))),[0,1E-6]);colormap hot
+imshow(abs(lattice_hat(dispRange,dispRange)),[0 1e-5]);colormap hot
 title('Fourier components of lattice intensity');
 
-% figure;
+% Show the Fourier transform of the dithered lattice intensity
 subplot(2,3,3)
-imshow((abs(test2(dispRange,dispRange))),[0,1E-6]);colormap hot
+imshow(abs(latticeDithered_hat(dispRange,dispRange)),[0 1e-5]);colormap hot
 title('Fourier components of dithered lattice intensity');
 
-% figure;
+% Show the electric field of the lattice at the focal plane
 subplot(2,3,4);
-imshow(B(dispRange,dispRange),[]);
-% imshowpair(real(B(dispRange,dispRange)),imag(B(dispRange,dispRange)));
+imshow(lattice_efield(dispRange,dispRange),[]);
 title('Electric field of lattice at focal plane');
-% figure;
+% Zoom in so we can see the details of the lattice
+xlim([-75 75]+length(dispRange)/2+1);
+ylim([-75 75]+length(dispRange)/2+1);
+
+% Show the intensity of the lattice
 subplot(2,3,5)
 imshow(lattice(dispRange,dispRange),[]);
 title('Intensity of lattice');
-% figure;
-subplot(2,3,6)
-imshow(latPro(dispRange,dispRange),[]);
-title('Averaged Intensity of dithered lattice');
+% Zoom in so we can see the details of the lattice
+xlim([-75 75]+length(dispRange)/2+1);
+ylim([-75 75]+length(dispRange)/2+1);
 
-%% Major Line Scan Components
-% figure;
-% % (abs_v < offset & abs_v > offset-5) | (v < 3 & v > -3);
-% idx_minus = -(offset-4:offset-1);
-% idx_center = -2:2;
-% idx_plus = +(offset-4:offset-1);
-% accumPattern = zeros(size(A));
-% 
-% subplot(3,4,1);
-% idx = idx_minus;
-% selection = ismember(v,idx);
-% lineSelection = repmat(selection,n,1);
-% subPattern = fftshift(ifft2(ifftshift(A.*lineSelection)));
-% accumPattern = accumPattern + abs(subPattern).^2;
-% imshowpair(lineSelection(dispRange,dispRange), ...
-%            A(dispRange,dispRange));
-%        
-% subplot(3,4,5);
-% stem(dispRange,A(dispRange,selection));
-% xlim([min(dispRange) max(dispRange)]);
-% 
-% subplot(3,4,9);
-% imshow(abs(subPattern(dispRange,dispRange)).^2,[]);
-%        
-% subplot(3,4,2);
-% idx = idx_center;
-% selection = ismember(v,idx);
-% lineSelection = repmat(selection,n,1);
-% subPattern = fftshift(ifft2(ifftshift(A.*lineSelection)));
-% accumPattern = accumPattern + abs(subPattern).^2;
-% imshowpair(lineSelection(dispRange,dispRange), ...
-%            A(dispRange,dispRange));
-%        
-% subplot(3,4,6);
-% stem(dispRange,A(dispRange,selection));
-% xlim([min(dispRange) max(dispRange)]);
-% 
-% subplot(3,4,10);
-% imshow(abs(subPattern(dispRange,dispRange)).^2,[]);
-%        
-% subplot(3,4,3);
-% idx = idx_plus;
-% selection = ismember(v,idx);
-% lineSelection = repmat(selection,n,1);
-% subPattern = fftshift(ifft2(ifftshift(A.*lineSelection)));
-% accumPattern = accumPattern + abs(subPattern).^2;
-% imshowpair(lineSelection(dispRange,dispRange), ...
-%            A(dispRange,dispRange));
-%        
-% subplot(3,4,7);
-% stem(dispRange,A(dispRange,selection));
-% xlim([min(dispRange) max(dispRange)]);
-% 
-% subplot(3,4,11);
-% imshow(abs(subPattern(dispRange,dispRange)).^2,[]);
-% 
-% subplot(3,4,4);
-% selection = ismember(v,[idx_minus,idx_plus]);
-% lineSelection = repmat(selection,n,1);
-% subPattern = fftshift(ifft2(ifftshift(A.*lineSelection)));
-% imshowpair(lineSelection(dispRange,dispRange), ...
-%            A(dispRange,dispRange));
-%        
-% subplot(3,4,8);
-% stem(dispRange,A(dispRange,selection));
-% xlim([min(dispRange) max(dispRange)]);
-% 
-% subplot(3,4,12);
-% imshow(accumPattern,[]);
+% Show the Fourier transform of the dithered lattice intensity
+subplot(2,3,6)
+imshow(latticeDithered(dispRange,dispRange),[]);
+title('Averaged Intensity of dithered lattice');
+xlim([-75 75]+length(dispRange)/2+1);
+ylim([-75 75]+length(dispRange)/2+1);
+
+%% Output
+if(nargout > 0)
+    % If output is requested, pack workspace into a struct
+    varnames = who;
+    out = struct;
+    for varIdx = 1:length(varnames)
+        out.(varnames{varIdx}) = eval(varnames{varIdx});
+    end
+    varargout{1} = out;
+end
