@@ -166,17 +166,17 @@ set(h,'Units','normalized','Position',[0 0 1 1]);
 
 % Show the mask
 subplot(2,3,1)
-imshow(latticeFourierMask(dispRange,dispRange),[]);colormap hot
+imshow(latticeFourierMask(dispRange,dispRange),[0 1e-6]);colormap hot
 title('Electric field in pupil');
 
 % Show the Fourier transform of the _intensity_ of the lattice
 subplot(2,3,2)
-imshow(abs(lattice_hat(dispRange,dispRange)),[0 1e-5]);colormap hot
+imshow(abs(lattice_hat(dispRange,dispRange)),[0 1e-6]);colormap hot
 title('Fourier components of lattice intensity');
 
 % Show the Fourier transform of the dithered lattice intensity
 subplot(2,3,3)
-imshow(abs(latticeDithered_hat(dispRange,dispRange)),[0 1e-5]);colormap hot
+imshow(abs(latticeDithered_hat(dispRange,dispRange)),[0 1e-6]);colormap hot
 title('Fourier components of dithered lattice intensity');
 
 % Show the electric field of the lattice at the focal plane
