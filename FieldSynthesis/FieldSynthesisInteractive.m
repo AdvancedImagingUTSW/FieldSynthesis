@@ -25,6 +25,26 @@ function [ hfig ] = FieldSynthesisInteractive( mask, doshift )
 % Goldman Lab
 % Northwestern University
 
+% Field Synthesis Demonstration -
+% MATLAB code to demonstrate field synthesis light sheet microscopy
+% Copyright (C) 2018 Reto Fioka,
+%               University of Texas Southwestern Medical Center
+% Copyright (C) 2018 Mark Kittisopikul,
+%               Northwestern University
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
+% 
+%  You should have received a copy of the GNU General Public License
+%  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 if(nargin < 1)
     mask = fftshift(fft2(double(imread('cameraman.tif'))));
 end

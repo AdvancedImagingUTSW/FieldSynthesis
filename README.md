@@ -16,6 +16,20 @@ Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3
 3. Lyda Hill Department of Bioinformatics, UT Southwestern Medical Center, Dallas, TX, USA.
 4. Department of Cell and Molecular Biology, Feinberg School of Medicine, Northwestern University, Chicago, IL, USA.
 
+## System Requirements
+
+* [MATLAB (2017a or above), Mathworks, Natick, MA](https://www.mathworks.com/support/sysreq.html)
+** Image Processing Toolbox
+** Follow MATLAB link above for operating system requirements
+* Git 2.18.0 or above
+
+## Installation and Demo
+
+Typical Install Time: 5 minutes
+
+git clone https://github.com/AdvancedImagingUTSW/FieldSynthesis.git
+
+See below documentation for demonstration. Typical run time: 10 minutes
 
 ## Code
 
@@ -150,3 +164,24 @@ FieldSynthesisVersusLattice.m
  Mark Kittisopikul, August 25th, 2018  
  Lab of Robert D. Goldman  
  Northwestern University
+
+## License
+
+    See LICENSE.txt
+
+    Field Synthesis Demonstration - MATLAB code to demonstrate field synthesis light sheet microscopy
+    Copyright (C) 2018 Reto Fioka, University of Texas Southwestern Medical Center
+    Copyright (C) 2018 Mark Kittisopikul, Northwestern University
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
