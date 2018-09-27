@@ -8,7 +8,7 @@ We introduce Field Synthesis, a theorem that can be used to synthesize any scann
 
 
 Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3</sup>, Phillipe Roudot<sup>1,3</sup>, Erik Welf<sup>1,3</sup> and Reto Fiolka<sup>1,3</sup>.
-"Democratizing Lattice Light-Sheet Microscopy with Field Synthesis."
+"Universal Light-Sheet Generation with Field Synthesis."
  
 ### Affiliations
 1. Department of Cell Biology, UT Southwestern Medical Center, Dallas, TX, USA. 
