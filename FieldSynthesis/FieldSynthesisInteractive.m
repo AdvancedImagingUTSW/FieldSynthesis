@@ -1,4 +1,4 @@
-function [ hfig ] = FieldSynthesisInteractive( mask, doshift )
+function [ hfig ] = FieldSynthesisInteractive( mask, doshift, gaussianLineSigma )
 %FieldSynthesisInteractive Create an interactive line scan demonstration of
 %field synthesis
 %
@@ -7,6 +7,8 @@ function [ hfig ] = FieldSynthesisInteractive( mask, doshift )
 %        field at the focal plane
 % doshift - if true, shift the Fourier transform of the mask so the first
 %           pixel is in the center of the image rather than the upper left
+% gaussianLineSigma  - a double value indicating the sigma of the
+%                      gaussianLine in pixels
 %
 % OUTPUT
 % hfig - handle for the display figure
@@ -50,6 +52,9 @@ if(nargin < 1)
 end
 if(nargin < 2)
     doshift = false;
+end
+if(nargin < 3)
+    gaussianLineSigma = 0;
 end
 
 %% Setup helper functions
@@ -118,6 +123,10 @@ title('Cum. Intensity: $\sum^a |T_a|^2$','interpreter','latex');
 % 1D delta function, used for line scan display
 delta = zeros(size(mask,2));
 delta(:,1) = 1;
+
+if(gaussianLineSigma > 0)
+    delta = imgaussfilt(delta,gaussianLineSigma);
+end
 
 % Cumulative matrix
 cumulative = zeros(size(mask));
