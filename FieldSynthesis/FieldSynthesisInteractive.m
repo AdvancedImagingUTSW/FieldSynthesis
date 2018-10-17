@@ -125,7 +125,9 @@ delta = zeros(size(mask,2));
 delta(:,1) = 1;
 
 if(gaussianLineSigma > 0)
+    delta = circshift(delta,[0 ceil(5*gaussianLineSigma)]);
     delta = imgaussfilt(delta,gaussianLineSigma);
+    delta = circshift(delta,[0 -ceil(5*gaussianLineSigma)]);
 end
 
 % Cumulative matrix
