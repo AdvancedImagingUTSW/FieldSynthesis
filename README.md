@@ -76,9 +76,18 @@ field synthesis
 
  #### INPUT
  * mask - mask at the pupil, which is the Fourier transform of electrical
-        field at the focal plane
+        field at the focal plane. zeroth frequency should be in the
+        middle. ifftshift will be applied for calcualtions.
  * doshift - if true, shift the Fourier transform of the mask so the first
            pixel is in the center of the image rather than the upper left
+ * lineProfile  -  line profile for the scan in the pupil mask
+                 EITHER:
+                 1) 0 for a delta function line scan
+                 2) a positive double value indicating the sigma of the
+                      gaussianLine in pixels
+                 3) a line profile vector the same width as mask. The main
+                    peak is expected to be in the center and ifftshift
+                    will be applied
 
  #### OUTPUT
  * hfig - handle for the display figure
@@ -89,6 +98,19 @@ field synthesis
  * Clicking on the trough of the slider will move the scan by five columns.
  * The button in the lower right labeled R will reset the cumulative view.
 
+ #### DISPLAY
+ The display consists of 6 panels
+ 1 2 3
+ 4 5 6
+ 1. The pupil mask, |\hat{F}|^2 in log scale
+ 2. The object domain, |F|^2, scanning left to right
+    Line plot indicates beam intensity
+ 3. Dithered, averaged intensity. Cumulative sum of display #2
+ 4. Display of the real component of the electric field of an insteaneous
+    scan, Real{T_a}
+ 5. Instaneous scan intensity, |T_a|^2
+ 6. Cumulative scan intensity of display #5
+
  #### EXAMPLE
 ```matlab
  FieldSynthesisInteractive; % default demonstration with cameraman
@@ -96,10 +118,18 @@ field synthesis
 ![Screenshot of interactive field synthesis line scan simulation](images/FieldSynthesisInteractive.png)
 
 ```matlab
- FieldSynthesisInteractive(createAnnulus(),true); % demonstrate a Bessel beam 
+ FieldSynthesisInteractive(createAnnulus(),true); % demonstrate a Bessel beam
 ```
-
 ![Screenshot of interactive field synthesis line scan simulation of Bessel beam](images/FieldSynthesisInteractive_bessel.png)
+
+
+```matlab
+ %Create a sinc profile to emulate a scan over a finite range
+ N = 128;
+ x = -ceil(N/2):floor(N/2-1)
+ L_hat = fftshift(fft(ifftshift(abs(x) < 30)));
+ FieldSynthesisInteractive(createAnnulus(),true,L_hat);
+```
 
  Mark Kittisopikul , August 2018  
  Goldman Lab  
