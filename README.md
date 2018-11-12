@@ -27,8 +27,8 @@ The canonical proof can be found in the supplemental information of the manuscri
 ## System Requirements
 
 * [MATLAB (2017a or above), Mathworks, Natick, MA](https://www.mathworks.com/support/sysreq.html)
-** Image Processing Toolbox
-** Follow MATLAB link above for operating system requirements
+	* Image Processing Toolbox
+	* Follow MATLAB link above for operating system requirements
 * Git 2.18.0 or above
 
 ## Installation and Demo
