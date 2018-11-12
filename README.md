@@ -19,11 +19,16 @@ Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3
 ### BioRxiv Preprint
 [https://www.biorxiv.org/content/early/2018/09/26/427468](https://www.biorxiv.org/content/early/2018/09/26/427468)
 
+## Proof
+
+The canonical proof can be found in the supplemental information of the manuscript. Here we also have also included 
+[an illustrated proof for the Field Synthesis Theorem in the form of a MATLAB Live Script](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustration.html)
+
 ## System Requirements
 
 * [MATLAB (2017a or above), Mathworks, Natick, MA](https://www.mathworks.com/support/sysreq.html)
-** Image Processing Toolbox
-** Follow MATLAB link above for operating system requirements
+	* Image Processing Toolbox
+	* Follow MATLAB link above for operating system requirements
 * Git 2.18.0 or above
 
 ## Installation and Demo
