@@ -143,14 +143,14 @@ def main():
     scanned = doConventionalScan(Fsqmod,Lsqmod)
 
     ax[1,0].imshow(scanned, cmap='plasma')
-    ax[1,0].set_title('Scanned: $ \sum_{x\'} |F(x\',z)|^2|L(x-x\',z)|^2 $')
+    ax[1,0].set_title('Scanned: $ \sum_{x\'} |F(x\',z)|^2|L(x-x\')|^2 $')
 
     # Manually scanning is a convolution operation
     # There are potentially boundary effects here
     convolved = sig.fftconvolve(Fsqmod,Lsqmod,'same')
 
     ax[1,1].imshow(convolved, cmap='plasma')
-    ax[1,1].set_title('Convolved: $ |F(x,z)|^2 ** |L(x,z)\delta(z)|^2 $')
+    ax[1,1].set_title('Convolved: $ |F(x,z)|^2 ** |L(x)\delta(z)|^2 $')
 
     # This manual implementation of Fourier transform based convolution
     # actually does circular convolution
@@ -158,7 +158,7 @@ def main():
     convolvedft = np.real(convolvedft)
 
     ax[1,2].imshow(convolvedft, cmap='plasma')
-    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L|^2\} \} $')
+    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L\delta(z)|^2\} \} $')
 
     # Do the Field Synthesis method of performing a line scan at the back focal plane
     fieldSynthesis = doFieldSynthesisLineScan(F_hat,L_hat)
