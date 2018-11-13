@@ -35,6 +35,9 @@ def createAnnulus(n=256, r=32, w=4):
     annulus = abs(q-r) < w
     return annulus
 
+plt.rc('text', usetex=True)
+fig, ax = plt.subplots(2,4,sharey=True,sharex=True,figsize=(16,9))
+
 # Create F, the illumination pattern
 F_hat = createAnnulus()
 F_hat = ft.ifftshift(F_hat)
@@ -43,10 +46,12 @@ F = ft.fftshift(F)
 # This is the illumination intensity pattern
 Fsqmod = np.real(F*np.conj(F))
 
-plt.figure()
-plt.title('F')
-plt.imshow(Fsqmod, cmap='plasma')
-plt.show(block=False)
+#plt.figure()
+#plt.title('F')
+#plt.imshow(Fsqmod, cmap='plasma')
+#plt.show(block=False)
+ax[0,0].imshow(Fsqmod, cmap='plasma')
+ax[0,0].set_title('F(x,z)')
 
 # Create L, the scan profile
 L = np.zeros_like(Fsqmod)
@@ -59,15 +64,14 @@ Lsqmod = L*np.conj(L)
 # This is the line scan profile used in Field Synthesis
 L_hat = ft.fftshift(ft.fft2(ft.ifftshift(L)))
 
-plt.figure()
-plt.title('L')
-plt.imshow(L, cmap='plasma')
-plt.show(block=False)
+ax[0,1].imshow(L, cmap='plasma')
+ax[0,1].set_title('$ L(x)\delta(z) $')
 
-plt.figure()
-plt.title('L_hat')
-plt.imshow(np.abs(L_hat), cmap='plasma')
-plt.show(block=False)
+ax[0,2].imshow(Lsqmod, cmap='plasma')
+ax[0,2].set_title('$ |L(x)\delta(z)|^2 $')
+
+ax[0,3].imshow(np.abs(L_hat), cmap='plasma')
+ax[0,3].set_title('$\hat{L}(k_x) $')
 
 # Manually scan by shifting Fsqmod and multiplying by Lsqmod
 scanned = np.zeros(Fsqmod.shape)
@@ -75,29 +79,23 @@ scanned = np.zeros(Fsqmod.shape)
 for x in range(np.size(Fsqmod,1)):
     scanned = scanned + np.roll(Fsqmod,x-center,1)*Lsqmod[center,x]
 
-plt.figure()
-plt.title('Scanned')
-plt.imshow(scanned, cmap='plasma')
-plt.show(block=False)
+ax[1,0].imshow(scanned, cmap='plasma')
+ax[1,0].set_title('Scanned: $ \sum_{x\'} |F(x\',z)|^2|L(x-x\',z)|^2 $')
 
 # Manually scanning is a convolution operation
 # There are potentially boundary effects here
 convolved = sig.fftconvolve(Fsqmod,Lsqmod,'same')
 
-plt.figure()
-plt.title('Convolved')
-plt.imshow(convolved, cmap='plasma')
-plt.show(block=False)
+ax[1,1].imshow(convolved, cmap='plasma')
+ax[1,1].set_title('Convolved: $ |F(x,z)|^2 ** |L(x,z)\delta(z)|^2 $')
 
 # This manual implementation of Fourier transform based convolution
 # actually does circular convolution
 convolvedft = ft.fftshift(ft.fft2(ft.ifft2(ft.ifftshift(Fsqmod)) *ft.ifft2(ft.ifftshift(Lsqmod))))
 convolvedft = np.real(convolvedft)
 
-plt.figure()
-plt.title('Convolved FT')
-plt.imshow(convolvedft, cmap='plasma')
-plt.show(block=False)
+ax[1,2].imshow(convolvedft, cmap='plasma')
+ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L|^2\} \} $')
 
 # Do the Field Synthesis method of performing a line scan at the back focal plane
 fieldSynthesis = np.zeros_like(Fsqmod)
@@ -110,7 +108,7 @@ for a in range(fieldSynthesis.shape[1]):
     # Incoherent summing of the intensities
     fieldSynthesis = fieldSynthesis + np.abs(temp)**2
 
-plt.figure()
-plt.title('Field Synthesis')
-plt.imshow(fieldSynthesis, cmap='plasma')
+ax[1,3].imshow(fieldSynthesis, cmap='plasma')
+ax[1,3].set_title('Field Synthesis: $ \sum_a |\hat{F}(k_x,k_z)\hat{L}(k_x-a)|^2 $')
+
 plt.show(block=True)
