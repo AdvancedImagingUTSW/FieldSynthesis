@@ -7,8 +7,8 @@
 % and Reto Fiolka.
 %% Field Synthesis Theorem for a Non-Ideal Line Scan
 % We want to prove that the sum of the intensity of individual line scans produces 
-% a light-sheet illumination pattern equivalent to the average intensity created 
-% by a scanned light-sheet.
+% a light-sheet illumination pattern equivalent to the intensity created by a 
+% scanned light-sheet using a intensity scan profile of $|L(x)|^2$ in the x-dimension.
 % 
 % Let F(x,z) describe the electric field produced by illuminating the entire 
 % mask in the back pupil plane. $\hat{F}(k_x,k_z)$ represents the mask at the 
@@ -18,6 +18,11 @@
 % and has a Fourier transform $\hat{T}_a(k_x,k_z) = \hat{F}(k_x,k_z)\hat{L}(k_x 
 % -a)$.
 % 
+% $\hat{L}(k_x) $represents the profile of the line scan at the back focal 
+% plane and in the ideal case is $\delta(k_x)$, an infinitely thin line. In the 
+% non-ideal case, $\hat{L}(k_x)$ is an arbitrary line profile. It could be a Gaussian 
+% function or a sinc function for example.
+% 
 % The intensity of the illumination is represented by the square modulus 
 % ${\left|\cdot \;\right|}^{2\;}$. The intensity created by illumination the entire 
 % annular mask is $\left| F(x,z) \right| ^2$. The intensity of an individual line 
@@ -26,11 +31,11 @@
 % A sum of the intensity of individual line scans can be expressed as $\sum_a 
 % \left| T_a(x,z) \right|^2$.
 % 
-% An scanned light sheet has a z-profile equivalent to the average of F(x,z) 
-% over the x-dimension: $\frac{1}{N} \left|F(x,z) \right|^2 ** |L(x)\delta(z)|^2$ 
-% .
+% An scanned light sheet is equivalent to the convolution of $|F(x,z)|^2$ 
+% and $|L(x)|^2 $ over the x-dimension: $\frac{1}{N} \left|F(x,z) \right|^2 ** 
+% |L(x)\delta(z)|^2$ . This is expressed as a 2-D convolution to avoid confusion.
 % 
-% Thus we want to prove that $\sum_a \left|T_a(x,z) \right| = \frac{1}{N} 
+% Thus we want to prove that $\sum_a \left|T_a(x,z) \right|^2 = \frac{1}{N} 
 % \left|F(x,z) \right|^2 ** |L(x)\delta(z)|^2$
 %% Setup
 %%
@@ -115,7 +120,7 @@ xlim(xlims_mediumzoom); ylim(ylims_mediumzoom);
 % $$\sum_a |T_a(x,z)|^2 = \sum_a | \mathcal{F}^{-1} \left\{ \hat{T}_a(k_x,k_z) 
 % \right\}(x,z) |^2$$
 % 
-% In equation 1, we state the inverse 2-D Fourier transform relationship 
+% In equation 10, we state the inverse 2-D Fourier transform relationship 
 % between the electric field of an instaneous line scan, $T_a(x,z)$. 
 
 % Save our example "a" for later use
@@ -162,7 +167,7 @@ T_a_hat = T_a_hat_selected;
 L_hat_shifted = L_hat_shifted_selected;
 
 %% Equation 11
-% In equation 2, we substitute in  the frequency space representation at the 
+% In equation 11, we substitute in  the frequency space representation at the 
 % back focal plane which we just defined above.
 % 
 % $$\sum_a |T_a(x,z)|^2 = \sum_a | \mathcal{F}^{-1} \left\{ \hat{F}(k_x,k_z)\hat{L}(k_x-a) 
@@ -517,7 +522,7 @@ xlim(xlims_mediumzoom); ylim(xlims_mediumzoom);
 % The z-profile of $|T_a(0,z)|^2$ is a one-dimensional Fourier Transform 
 % of $F(x,z)L(-x), |\mathcal{F}_{x'} \{F(x',z)L(-x') \}(a,z)|^2$
 
-delta_shifted = zeros(size(L));
+delta_shifted = zeros(size(L_hat));
 delta_shifted(:,center+a) = 1;
 figure; imshowpair(abs(one_d_ft).^2,delta_shifted);
 xlim(xlims_mediumzoom); ylim(xlims_mediumzoom); 
@@ -632,8 +637,8 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % Circular convolution
 % This will work more generally where L(x) does not go to zero near the
 % boundaries
-cconv2 = @(x,y) fftshift(ifft2(fft2(ifftshift(x)).*fft2(ifftshift(y))));
-circConv = conv2(abs(F).^2,abs(L_times_delta_z).^2,'same');
+cconv2 = @(x,y,~) fftshift(ifft2(fft2(ifftshift(x)).*fft2(ifftshift(y))));
+circConv = cconv2(abs(F).^2,abs(L_times_delta_z).^2,'same');
 figure;
 subplot(1,2,1);
 plot(circConv(:,center),z);

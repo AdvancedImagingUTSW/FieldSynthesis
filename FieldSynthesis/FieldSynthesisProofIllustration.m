@@ -1,5 +1,5 @@
 %% Field Synthesis Proof Illustration Live Script
-% supplementary material to:
+% Supplementary Material to:
 % 
 % *Universal Light-Sheet Generation with Field Synthesis*
 % 
@@ -30,7 +30,7 @@
 % intensity of F(x,z) over the x-dimension: $\frac{1}{N} \sum_{x'} \left|F(x',z) 
 % \right|^2$ .
 % 
-% Thus we want to prove that $\sum_a \left|T_a(x,z) \right| = \frac{1}{N} 
+% Thus we want to prove that $\sum_a \left|T_a(x,z) \right|^2 = \frac{1}{N} 
 % \sum_{x'} \left| F(x',z) \right|^2$
 %% Setup
 %%
@@ -82,7 +82,7 @@ doInverse2DFourierTransformWithShifts = @(X) fftshift( ifft2( ifftshift(X) ) );
 L_hat_shifted = circshift(L_hat,[0 a]);
 T_a_hat = F_hat.*L_hat_shifted;
 
-figure;
+figure('Position',[0 0 800 600]);
 
 
 % Green annulus only
