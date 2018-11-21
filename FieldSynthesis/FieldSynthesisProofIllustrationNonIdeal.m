@@ -7,35 +7,35 @@
 % and Reto Fiolka.
 %% Field Synthesis Theorem for a Non-Ideal Line Scan
 % We want to prove that the sum of the intensity of individual line scans produces 
-% a light-sheet illumination pattern equivalent to the average intensity created 
-% by a scanned light-sheet.
+% a light-sheet illumination pattern equivalent to the intensity created by a 
+% scanned light-sheet using a intensity scan profile of $|L(x)|^2$ in the x-dimension.
 % 
 % Let F(x,z) describe the electric field produced by illuminating the entire 
 % mask in the back pupil plane. $\hat{F}(k_x,k_z)$ represents the mask at the 
 % back pupil plane, the Fourier transform of the electric field.
 % 
-% An individual line scan is represented by the function $<math xmlns="http://www.w3.org/1998/Math/MathML" 
-% display="inline"><mrow><msub><mrow><mi mathvariant="italic">T</mi></mrow><mrow><mi 
-% mathvariant="italic">a</mi><mtext>?</mtext></mrow></msub><mrow><mo>(</mo><mrow><mi 
-% mathvariant="italic">x</mi><mo>,</mo><mi mathvariant="italic">z</mi></mrow><mo>)</mo></mrow></mrow></math>$ 
+% An individual line scan is represented by the function $T_{a\;} \left(x,z\right)$ 
 % and has a Fourier transform $\hat{T}_a(k_x,k_z) = \hat{F}(k_x,k_z)\hat{L}(k_x 
 % -a)$.
 % 
+% $\hat{L}(k_x) $represents the profile of the line scan at the back focal 
+% plane and in the ideal case is $\delta(k_x)$, an infinitely thin line. In the 
+% non-ideal case, $\hat{L}(k_x)$ is an arbitrary line profile. It could be a Gaussian 
+% function or a sinc function for example.
+% 
 % The intensity of the illumination is represented by the square modulus 
-% $<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msup><mrow><mrow><mo>|</mo><mrow><mo>?</mo><mtext>?
-% </mtext></mrow><mo>|</mo></mrow></mrow><mrow><mn>2</mn><mtext>?</mtext></mrow></msup></mrow></math>$. 
-% The intensity created by illumination the entire annular mask is $\left| F(x,z) 
-% \right| ^2$. The intensity of an individual line scan is $\left| T_a(x,z) \right| 
-% ^2$.
+% ${\left|\cdot \;\right|}^{2\;}$. The intensity created by illumination the entire 
+% annular mask is $\left| F(x,z) \right| ^2$. The intensity of an individual line 
+% scan is $\left| T_a(x,z) \right| ^2$.
 % 
 % A sum of the intensity of individual line scans can be expressed as $\sum_a 
 % \left| T_a(x,z) \right|^2$.
 % 
-% An scanned light sheet has a z-profile equivalent to the average of F(x,z) 
-% over the x-dimension: $\frac{1}{N} \left|F(x,z) \right|^2 ** |L(x)\delta(z)|^2$ 
-% .
+% An scanned light sheet is equivalent to the convolution of $|F(x,z)|^2$ 
+% and $|L(x)|^2 $ over the x-dimension: $\frac{1}{N} \left|F(x,z) \right|^2 ** 
+% |L(x)\delta(z)|^2$ . This is expressed as a 2-D convolution to avoid confusion.
 % 
-% Thus we want to prove that $\sum_a \left|T_a(x,z) \right| = \frac{1}{N} 
+% Thus we want to prove that $\sum_a \left|T_a(x,z) \right|^2 = \frac{1}{N} 
 % \left|F(x,z) \right|^2 ** |L(x)\delta(z)|^2$
 %% Setup
 %%
@@ -86,7 +86,7 @@ doInverse2DFourierTransformWithShifts = @(X) fftshift( ifft2( ifftshift(X) ) );
 % on a pixel-by-pixel basis.
 % 
 % $$\hat{T_a}(k_x,k_z) = \hat{F}(k_x,k_z)\hat{L}(k_x-a)$$
-%%
+
 % Calculate T_a_hat
 
 L_hat_shifted = circshift(L_hat,[0 a]);
@@ -120,7 +120,7 @@ xlim(xlims_mediumzoom); ylim(ylims_mediumzoom);
 % $$\sum_a |T_a(x,z)|^2 = \sum_a | \mathcal{F}^{-1} \left\{ \hat{T}_a(k_x,k_z) 
 % \right\}(x,z) |^2$$
 % 
-% In equation 1, we state the inverse 2-D Fourier transform relationship 
+% In equation 10, we state the inverse 2-D Fourier transform relationship 
 % between the electric field of an instaneous line scan, $T_a(x,z)$. 
 
 % Save our example "a" for later use
@@ -167,7 +167,7 @@ T_a_hat = T_a_hat_selected;
 L_hat_shifted = L_hat_shifted_selected;
 
 %% Equation 11
-% In equation 2, we substitute in  the frequency space representation at the 
+% In equation 11, we substitute in  the frequency space representation at the 
 % back focal plane which we just defined above.
 % 
 % $$\sum_a |T_a(x,z)|^2 = \sum_a | \mathcal{F}^{-1} \left\{ \hat{F}(k_x,k_z)\hat{L}(k_x-a) 
@@ -214,7 +214,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % 
 % Next we apply the the 2-D Convolution Theorem to observe that $T_a$ is 
 % the 2-D convolution of the inverse Fourier Transform of each term.
-%%
+
 F = doInverse2DFourierTransformWithShifts(F_hat);
 
 figure;
@@ -301,7 +301,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % \left( \frac{2\pi i x a }{N} \right) $. Below we illustrate that the product 
 % of the complex exponential and $\delta(z)$ is the same as $\mathcal{F}^{-1}\{ 
 % \delta(k_x-a) \}$.
-%%
+
 % delta_z = zeros(512);
 % delta_z(center,:) = 1/N;
 L_times_delta_z = doInverse2DFourierTransformWithShifts(L_hat);
@@ -367,7 +367,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % 
 % Next, we can use the definition of 2-D convolution to expand out the expression 
 % as two nested summations.
-%%
+
 hfig = figure('visible','on');
 him = imshow(zeros(N,N*2),[0 1]);
 cumulativeSum = zeros(N);
@@ -397,7 +397,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % Because of the 1-D delta function $\delta(z-z')$in the summation, we only 
 % need to perform the summation over x, the middle row. Only the term when $z' 
 % = z$ survives.
-%%
+
 hfig = figure('visible','on');
 him = imshow(zeros(N,N*2),[0 1]);
 cumulativeSum = zeros(N);
@@ -437,7 +437,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % The multiplicative property of the complex modulus allows us to factor 
 % out the square modulus of the first complex exponential. The square modulus 
 % of that complex exponential is unity, 1, everywhere.
-%%
+
 label = '\exp(\frac{2 \pi i x a }{ N})';
 
 figure;
@@ -480,7 +480,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % the $x = 0$ central slice in object space.
 % 
 % 
-%%
+
 L_flipped = fliplr(L_times_delta_z);
 if(mod(size(L_times_delta_z,2),2) == 2)
     % If the dimension is even sized, we need to keep the center in the
@@ -579,7 +579,7 @@ ylim(xlims_highzoom-center);
 % of the electric field is a projection in the x' direction. This projection is 
 % created by the conventional manner of scanning a beam across a field to create 
 % a lightsheet.
-%%
+
 FL_projection = sum(abs(F.*L_flipped).^2,2)/N;
 
 figure;
@@ -597,7 +597,7 @@ ylim(xlims_highzoom-center);
 % 
 % By the properties the complex square modulus, we can separately take the 
 % square modulus of the F and L portions of the summand.
-%%
+
 FL_projection_split = sum(abs(F).^2.*abs(L_flipped).^2,2)/N;
 
 figure;
@@ -618,7 +618,7 @@ ylim(xlims_highzoom-center);
 % 19 into a 2-D convolution in Equation 21.
 %% Equation 21
 % $$\sum_a | T_a(x,z)|^2 = \frac{1}{N} | F(x,z)|^2 ** |L(x)\delta(z)|^2$$
-%%
+
 % Linear convolution
 linearConv = conv2(abs(F).^2,abs(L_times_delta_z).^2,'same');
 figure;
