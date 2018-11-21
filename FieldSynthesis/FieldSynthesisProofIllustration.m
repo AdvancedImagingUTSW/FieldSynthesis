@@ -14,14 +14,19 @@
 % mask in the back pupil plane. $\hat{F}(k_x,k_z)$ represents the mask at the 
 % back pupil plane, the Fourier transform of the electric field.
 % 
-% An individual line scan is represented by the function $T_{a\;} \left(x,z\right)$ 
+% An individual line scan is represented by the function $<math xmlns="http://www.w3.org/1998/Math/MathML" 
+% display="inline"><mrow><msub><mrow><mi mathvariant="italic">T</mi></mrow><mrow><mi 
+% mathvariant="italic">a</mi><mtext>?</mtext></mrow></msub><mrow><mo>(</mo><mrow><mi 
+% mathvariant="italic">x</mi><mo>,</mo><mi mathvariant="italic">z</mi></mrow><mo>)</mo></mrow></mrow></math>$ 
 % and has a Fourier transform $\hat{T}_a(k_x,k_z) = \hat{F}(k_x,k_z)\delta(k_x 
 % -a)$.
 % 
 % The intensity of the illumination is represented by the square modulus 
-% ${\left|\cdot \;\right|}^{2\;}$. The intensity created by illuminating the entire 
-% annular mask is $\left| F(x,z) \right| ^2$. The intensity of an individual line 
-% scan is $\left| T_a(x,z) \right| ^2$.
+% $<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msup><mrow><mrow><mo>|</mo><mrow><mo>?</mo><mtext>?
+% </mtext></mrow><mo>|</mo></mrow></mrow><mrow><mn>2</mn><mtext>?</mtext></mrow></msup></mrow></math>$. 
+% The intensity created by illuminating the entire annular mask is $\left| F(x,z) 
+% \right| ^2$. The intensity of an individual line scan is $\left| T_a(x,z) \right| 
+% ^2$.
 % 
 % A sum of the intensity of individual line scans can be expressed as $\sum_a 
 % \left| T_a(x,z) \right|^2$.
@@ -76,7 +81,7 @@ doInverse2DFourierTransformWithShifts = @(X) fftshift( ifft2( ifftshift(X) ) );
 % on a pixel-by-pixel basis.
 % 
 % $$\hat{T_a}(k_x,k_z) = \hat{F}(k_x,k_z)\delta(k_x-a)$$
-
+%%
 % Calculate T_a_hat
 
 L_hat_shifted = circshift(L_hat,[0 a]);
@@ -204,7 +209,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % 
 % Next we apply the the 2-D Convolution Theorem to observe that $T_a$ is 
 % the 2-D convolution of the inverse Fourier Transform of each term.
-
+%%
 F = doInverse2DFourierTransformWithShifts(F_hat);
 
 figure;
@@ -291,7 +296,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % \left( \frac{2\pi i x a }{N} \right) $. Below we illustrate that the product 
 % of the complex exponential and $\delta(z)$ is the same as $\mathcal{F}^{-1}\{ 
 % \delta(k_x-a) \}$.
-
+%%
 delta_z = zeros(512);
 delta_z(center,:) = 1/N;
 
@@ -356,7 +361,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % 
 % Next, we can use the definition of 2-D convolution to expand out the expression 
 % as two nested summations.
-
+%%
 hfig = figure('visible','on');
 him = imshow(zeros(N,N*2),[0 1]);
 cumulativeSum = zeros(N);
@@ -386,7 +391,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % Because of the 1-D delta function $\delta(z-z')$in the summation, we only 
 % need to perform the summation over x, the middle row. Only the term when $z' 
 % = z$ survives.
-
+%%
 hfig = figure('visible','on');
 him = imshow(zeros(N,N*2),[0 1]);
 cumulativeSum = zeros(N);
@@ -425,7 +430,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % The multiplicative property of the complex modulus allows us to factor 
 % out the square modulus of the first complex exponential. The square modulus 
 % of that complex exponential is unity, 1, everywhere.
-
+%%
 label = '\exp(\frac{2 \pi i x a }{ N})';
 
 figure;
@@ -463,7 +468,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % We can simplify the expression further using the definition of the 1-D 
 % Fourier Transform with respect to $x'$. Note that this creates a field where 
 % the x-dimension is frequency space and the z-dimension is in object space.
-
+%%
 one_d_ft = fftshift(fft(ifftshift(F,2),[],2),2);
 label = '\mathcal{F}_{x''} \left\{ F(x'',z) \right\}(k_x,z)';
 
@@ -565,7 +570,7 @@ xlim(xlims_highzoom); ylim(xlims_highzoom);
 % of the electric field is a projection in the x' direction. This projection is 
 % created by the conventional manner of scanning a beam across a field to create 
 % a lightsheet.
-
+%%
 F_projection = sum(abs(F).^2,2)/N;
 
 figure;
