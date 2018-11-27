@@ -22,7 +22,9 @@ Bo-Jui Chang<sup>1</sup>, Mark Kittisopikul<sup>2,4</sup>, Kevin M. Dean<sup>1,3
 ## Proof
 
 The canonical proof can be found in the supplemental information of the manuscript. Here we also have also included 
-[an illustrated proof for the Field Synthesis Theorem in the form of a MATLAB Live Script](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustration.html)
+[an illustrated proof for the Field Synthesis Theorem in the form of a MATLAB Live Script](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustration.html).
+
+A more [general Field Synthesis Theorem proof for the an arbitrary, non-ideal line profile](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustrationNonIdeal.html) is now also available.
 
 ## System Requirements
 
