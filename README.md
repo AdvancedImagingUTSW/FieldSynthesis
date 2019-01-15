@@ -17,6 +17,11 @@ Bo-Jui Chang<sup>1,\*</sup>, Mark Kittisopikul<sup>2,4,\*</sup>, Kevin M. Dean<s
 
 \* These authors contributed equally to this work
 
+### Correspondence
+
+[Reto.Fiolka@utsouthwestern.edu](mailto:Reto.Fiolka@utsouthwestern.edu)
+
+
 ### BioRxiv Preprint
 [https://www.biorxiv.org/content/early/2018/09/26/427468](https://www.biorxiv.org/content/early/2018/09/26/427468)
 
@@ -248,6 +253,7 @@ def createAnnulus(n=256, r=32, w=4):
 
  #### doConventionalScan
 ```python
+def doConventionalScan(Fsqmod,Lsqmod):
     '''Simulate Conventional digital scanning / dithering
         INPUT
         F_sqmod - Square modulus of F at the front focal plane
