@@ -17,6 +17,25 @@ Goldman Lab
 Northwestern University
 
 November 2018
+
+Field Synthesis Demonstration -
+Python code to demonstrate field synthesis light sheet microscopy
+Copyright (C) 2019 Reto Fioka,
+              University of Texas Southwestern Medical Center
+Copyright (C) 2019 Mark Kittisopikul,
+              Northwestern University
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 def createAnnulus(n=256, r=32, w=4):
@@ -100,8 +119,14 @@ def doFieldSynthesisLineScan(F_hat,L_hat):
 
     return fieldSynthesis
 
-def main():
-    plt.rc('text', usetex=True)
+def demoFieldSynthesis():
+    '''Demonstrate Field Synthesis Method with Plots
+        INPUT
+         None
+        OUTPUT
+         None
+    '''
+    # plt.rc('text', usetex=True)
     fig, ax = plt.subplots(2,4,sharey=True,sharex=True,figsize=(16,9))
 
     # Create F, the illumination pattern
@@ -158,7 +183,7 @@ def main():
     convolvedft = np.real(convolvedft)
 
     ax[1,2].imshow(convolvedft, cmap='plasma')
-    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L\delta(z)|^2\} \} $')
+    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L(x)\delta(z)|^2\} \} $')
 
     # Do the Field Synthesis method of performing a line scan at the back focal plane
     fieldSynthesis = doFieldSynthesisLineScan(F_hat,L_hat)
@@ -166,7 +191,8 @@ def main():
     ax[1,3].imshow(fieldSynthesis, cmap='plasma')
     ax[1,3].set_title('Field Synthesis: $ \sum_a |\mathcal{F}^{-1}\{ \hat{F}(k_x,k_z)\hat{L}(k_x-a) \}|^2 $')
 
-    plt.show(block=True)
+    plt.show()
+    plt.pause(0.001)
 
 if __name__ == "__main__":
-    main()
+    demoFieldSynthesis()
