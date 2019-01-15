@@ -58,7 +58,7 @@ See below documentation for demonstration. Typical run time: 10 minutes
 
 ## MATLAB Code
 
-### FieldSynthesisTheorem.m
+### [FieldSynthesisTheorem.m](FieldSynthesis/FieldSynthesisTheorem.m)
 
    Small program to illustrate a new Field Synthesis Theorem.
 
@@ -91,7 +91,7 @@ FieldSynthesisTheorem.m;
 ![Individual line scan analysis showing complex modulation depending on line scan position](images/FieldSynthesisTheorem_2.png)
 
 
-### FieldSynthesisInteractive.m
+### [FieldSynthesisInteractive.m](FieldSynthesis/FieldSynthesisInteractive.m)
 
 FieldSynthesisInteractive Create an interactive line scan demonstration of
 field synthesis
@@ -157,7 +157,7 @@ field synthesis
  Goldman Lab  
  Northwestern University
 
-### FieldSynthesisVersusLattice.m
+### [FieldSynthesisVersusLattice.m](FieldSynthesis/FieldSynthesisVersusLattice.m)
 
 Simulation for field synthesis
 
@@ -185,7 +185,7 @@ FieldSynthesisVersusLattice.m
 ![Demonstration showing Fourier components of lattice light sheet simulation](images/FieldSynthesisVersusLattice.png)
 
 
-### createAnnulus.m
+### [createAnnulus.m](FieldSynthesis/createAnnulus.m)
 
  #### INPUT (all optional)
  * n - size of the annular mask as a scalar, or vector with coordinates
@@ -221,9 +221,9 @@ FieldSynthesisVersusLattice.m
  Northwestern University
 
 
-### Python code - fieldSynthesis.py
+## Python code - [fieldSynthesis.py](python/fieldSynthesis.py)
 
- #### USAGE
+ ### USAGE
 
 From a shell:
 ```shell
@@ -238,7 +238,7 @@ From inside IPython:
 
 ![Top row (left to right): F(x,z) beam illumination pattern in front focal plane, L(x)\delta(z) line scan profile in front focal plane, square modulus of line scan profile in front focal plane, \hat{L}(k_x) line scan profile in back focal plane; Bottom row (left to right): Scanned light-sheet, Convolved light-sheet, Convolved light-sheet using Fourier Transform, Field Synthesis light-sheet](images/fieldSynthesisPy.png)
 
- #### createAnnulus
+ ### createAnnulus
 ```python
 def createAnnulus(n=256, r=32, w=4):
     ''' createAnnulus - create a ring-like structure
@@ -251,7 +251,7 @@ def createAnnulus(n=256, r=32, w=4):
     '''
 ```
 
- #### doConventionalScan
+ ### doConventionalScan
 ```python
 def doConventionalScan(Fsqmod,Lsqmod):
     '''Simulate Conventional digital scanning / dithering
@@ -263,7 +263,7 @@ def doConventionalScan(Fsqmod,Lsqmod):
     '''
 ```
 
- #### doConventionalScanHat
+ ### doConventionalScanHat
 ```python
 def doConventionalScanHat(F_hat,L_hat):
     '''Simulate Conventional digital scanning / dithering from frequency space representations
@@ -275,7 +275,7 @@ def doConventionalScanHat(F_hat,L_hat):
     '''
 ```
 
-#### doFieldSynthesisLineScan
+### doFieldSynthesisLineScan
 ```python
 def doFieldSynthesisLineScan(F_hat,L_hat):
     '''Simulate Field Synthesis Method
@@ -287,7 +287,7 @@ def doFieldSynthesisLineScan(F_hat,L_hat):
     '''
 ```
 
-#### demoFieldSynthesis
+### demoFieldSynthesis
 ```python
 def demoFieldSynthesis():
     '''Demonstrate Field Synthesis Method with Plots
