@@ -6,7 +6,7 @@ We introduce Field Synthesis, a theorem and method that can be used to synthesiz
 ## Manuscript
 
 
-Bo-Jui Chang<sup>1,*</sup>, Mark Kittisopikul<sup>2,4,*</sup>, Kevin M. Dean<sup>1,3</sup>, Phillipe Roudot<sup>1,3</sup>, Erik Welf<sup>1,3</sup> and Reto Fiolka<sup>1,3</sup>.
+Bo-Jui Chang<sup>1,\*</sup>, Mark Kittisopikul<sup>2,4,\*</sup>, Kevin M. Dean<sup>1,3</sup>, Phillipe Roudot<sup>1,3</sup>, Erik Welf<sup>1,3</sup> and Reto Fiolka<sup>1,3</sup>.
 "Universal Light-Sheet Generation with Field Synthesis."
  
 ### Affiliations
@@ -15,7 +15,7 @@ Bo-Jui Chang<sup>1,*</sup>, Mark Kittisopikul<sup>2,4,*</sup>, Kevin M. Dean<sup
 3. Lyda Hill Department of Bioinformatics, UT Southwestern Medical Center, Dallas, TX, USA.
 4. Department of Cell and Molecular Biology, Feinberg School of Medicine, Northwestern University, Chicago, IL, USA.
 
-*These authors contributed equally to this work
+\* These authors contributed equally to this work
 
 ### BioRxiv Preprint
 [https://www.biorxiv.org/content/early/2018/09/26/427468](https://www.biorxiv.org/content/early/2018/09/26/427468)
@@ -23,9 +23,9 @@ Bo-Jui Chang<sup>1,*</sup>, Mark Kittisopikul<sup>2,4,*</sup>, Kevin M. Dean<sup
 ## Proof
 
 The canonical proof can be found in the supplemental information of the manuscript. Here we also have also included 
-[an illustrated proof for the Field Synthesis Theorem in the form of a MATLAB Live Script](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustration.html).
+[an illustrated proof for the Field Synthesis Theorem in the form of a MATLAB Live Script](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustration.html) [(PDF)](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/pdf/FieldSynthesisProofIllustration.pdf).
 
-A more [general Field Synthesis Theorem proof for the an arbitrary, non-ideal line profile](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustrationNonIdeal.html) is now also available.
+A more [general Field Synthesis Theorem proof for the an arbitrary, non-ideal line profile](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/FieldSynthesisProofIllustrationNonIdeal.html) [(PDF)](https://mkitti.github.io/FieldSynthesis/FieldSynthesis/pdf/FieldSynthesisProofIllustrationNonIdeal.pdf)is now also available.
 
 ## System Requirements
 

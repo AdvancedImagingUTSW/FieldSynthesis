@@ -172,8 +172,8 @@ def demoFieldSynthesis():
     ax[1,3].imshow(fieldSynthesis, cmap='plasma')
     ax[1,3].set_title('Field Synthesis: $ \sum_a |\mathcal{F}^{-1}\{ \hat{F}(k_x,k_z)\hat{L}(k_x-a) \}|^2 $')
 
-    plt.ion()
     plt.show()
+    plt.pause(0.001)
 
 if __name__ == "__main__":
     demoFieldSynthesis()
