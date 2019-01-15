@@ -172,7 +172,7 @@ xlabel('z position');
 
 % disp('Press any key');
 % pause;
-return;
+if(nargout > 3)
 
 %% Explanation of the profile of individual line scans
 % T represents a selected column in the spectral field selected by the scan
@@ -258,5 +258,7 @@ xlim([1 N]);
  
 % close(hfig);
 % end;
+
+end
 
 end

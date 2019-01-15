@@ -100,8 +100,14 @@ def doFieldSynthesisLineScan(F_hat,L_hat):
 
     return fieldSynthesis
 
-def main():
-    plt.rc('text', usetex=True)
+def demoFieldSynthesis():
+    '''Demonstrate Field Synthesis Method with Plots
+        INPUT
+         None
+        OUTPUT
+         None
+    '''
+    # plt.rc('text', usetex=True)
     fig, ax = plt.subplots(2,4,sharey=True,sharex=True,figsize=(16,9))
 
     # Create F, the illumination pattern
@@ -158,7 +164,7 @@ def main():
     convolvedft = np.real(convolvedft)
 
     ax[1,2].imshow(convolvedft, cmap='plasma')
-    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L\delta(z)|^2\} \} $')
+    ax[1,2].set_title(r'Convolved FT: $ \mathcal{F}^{-1} \{ \mathcal{F}\{|F|^2\} \mathcal{F}\{|L(x)\delta(z)|^2\} \} $')
 
     # Do the Field Synthesis method of performing a line scan at the back focal plane
     fieldSynthesis = doFieldSynthesisLineScan(F_hat,L_hat)
@@ -166,7 +172,8 @@ def main():
     ax[1,3].imshow(fieldSynthesis, cmap='plasma')
     ax[1,3].set_title('Field Synthesis: $ \sum_a |\mathcal{F}^{-1}\{ \hat{F}(k_x,k_z)\hat{L}(k_x-a) \}|^2 $')
 
-    plt.show(block=True)
+    plt.ion()
+    plt.show()
 
 if __name__ == "__main__":
-    main()
+    demoFieldSynthesis()
