@@ -21,6 +21,9 @@ Bo-Jui Chang<sup>1,\*</sup>, Mark Kittisopikul<sup>2,4,\*</sup>, Kevin M. Dean<s
 
 [Reto.Fiolka@utsouthwestern.edu](mailto:Reto.Fiolka@utsouthwestern.edu)
 
+### Publication
+
+[Bo-Jui Chang, Mark Kittisopikul, Kevin M. Dean, Philippe Roudot, Erik S. Welf & Reto Fiolka. "Universal light-sheet generation with field synthesis." Nature Methods. doi:10.1038/s41592-019-0327-9. 2019.](https://doi.org/10.1038/s41592-019-0327-9)
 
 ### BioRxiv Preprint
 [https://www.biorxiv.org/content/early/2018/09/26/427468](https://www.biorxiv.org/content/early/2018/09/26/427468)
